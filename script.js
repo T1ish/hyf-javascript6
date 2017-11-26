@@ -13,6 +13,14 @@ searchForm.addEventListener('submit', function(event){
 	// Using the console to find out that we have out addEventListener function working when you click on the button and this message comes out.
 	console.log("You clicked me!");
 
+	//Here we moved the function out and instead we are doing a call to this function meaning a method call.
+	requestInfo();
+	
+});
+
+
+//We took this part and put it into it's own function so we don't get a massive blok of code but instead small parts.
+function requestInfo() {
 	//Since we are going to make a XMLHttpRequest let's save it into the request variable so we can work with it's result.
 	const request = new XMLHttpRequest();
 
@@ -32,22 +40,8 @@ searchForm.addEventListener('submit', function(event){
 			//Here we throw it out to the console to see how it looks.
 			console.log(parsedResponse);
 
-			//Since we have an article in our index.html page with the id resultRepos, we can get it and save it into a variable for further working.
-			const resultRepositories = document.querySelector("#resultRepos");
-			//We need to set the innerHTML for the article null. This way when we press on the button it will be reset
-			// and our data will be fresh instead of adding on the old data from the previous button click.
-			resultRepositories.innerHTML = null;
-
-			//Since we know we have JSON meaning an array of objects we can run a for loop with the arrays lenght and put it on the html page
-			for (var i = 0; i < parsedResponse.length; i++) {
-				//Here we creates li elements
-				const repoLiElement = document.createElement('li');
-
-				//Here we put the inner html of the li element to one of the objects from the JSON
-				repoLiElement.innerHTML = parsedResponse[i].name;
-				//Here we append the filled li elements to the resultReposities so we can see the result on the html page
-				resultRepositories.appendChild(repoLiElement);  
-			}
+			//Here we moved the function out and instead we are doing a call to this function meaning a method call.
+			showRepos();
 
 		} else {
 			console.log("Something is wrong cuz I'm not getting data!");
@@ -65,5 +59,24 @@ searchForm.addEventListener('submit', function(event){
 
 	//Here we send the XMLHttpRequest to the url to get a response so we can have the addEventListener from before to start working.
 	request.send();
-	
-});
+}
+
+//We took this part and put it into it's own function so we don't get a massive blok of code but instead small parts.
+function showRepos() {
+	//Since we have an article in our index.html page with the id resultRepos, we can get it and save it into a variable for further working.
+	const resultRepositories = document.querySelector("#resultRepos");
+	//We need to set the innerHTML for the article null. This way when we press on the button it will be reset
+	// and our data will be fresh instead of adding on the old data from the previous button click.
+	resultRepositories.innerHTML = null;
+
+	//Since we know we have JSON meaning an array of objects we can run a for loop with the arrays lenght and put it on the html page
+	for (var i = 0; i < parsedResponse.length; i++) {
+		//Here we creates li elements
+		const repoLiElement = document.createElement('li');
+
+		//Here we put the inner html of the li element to one of the objects from the JSON
+		repoLiElement.innerHTML = parsedResponse[i].name;
+		//Here we append the filled li elements to the resultReposities so we can see the result on the html page
+		resultRepositories.appendChild(repoLiElement);  
+	}
+}

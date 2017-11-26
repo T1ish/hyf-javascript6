@@ -1,13 +1,17 @@
-// Here we get searchBtn from the html page
-const searchButton = document.querySelector("#searchBtn");
+//Here we get the form tag and what it contains (input and button) and save it in searchForm
+const searchForm = document.querySelector('form');
 
-//Here we uses the variable searchButton to listen to if there happens a click even and then output the console mnessage "You clicked me!"
-searchButton.addEventListener('click', function(){
+//We are saving the url for what we want to process in the variable url. We add an access token so we don't get a 403 error.
+const url = "https://api.github.com/orgs/HackYourFuture/repos?access_token=8335158c7359e2547b34d7915ad6960ad9f0efaf";
+
+//Here we uses the variable serachForm to listen when something happens. Here it is when the button is clicked.
+//when the button is clickked it is using a submit function so we listen to that and then output the console message "You clicked me!"
+//We also dothe rest of the request stuff.
+searchForm.addEventListener('submit', function(event){
+    event.preventDefault();
+	
 	// Using the console to find out that we have out addEventListener function working when you click on the button and this message comes out.
 	console.log("You clicked me!");
-
-	//We are saving the url for what we want to process in the variable url
-	const url = "https://api.github.com/orgs/HackYourFuture/repos";
 
 	//Since we are going to make a XMLHttpRequest let's save it into the request variable so we can work with it's result.
 	const request = new XMLHttpRequest();
@@ -40,7 +44,7 @@ searchButton.addEventListener('click', function(){
 				const repoLiElement = document.createElement('li');
 
 				//Here we put the inner html of the li element to one of the objects from the JSON
-				repoLiElement.innerHTML = parsedResponse[i];
+				repoLiElement.innerHTML = parsedResponse[i].name;
 				//Here we append the filled li elements to the resultReposities so we can see the result on the html page
 				resultRepositories.appendChild(repoLiElement);  
 			}

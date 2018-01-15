@@ -41,7 +41,7 @@ function requestInfo() {
 			console.log(parsedResponse);
 
 			//Here we moved the function out and instead we are doing a call to this function meaning a method call.
-			showRepos();
+			showRepos(parsedResponse);
 
 		} else {
 			console.log("Something is wrong cuz I'm not getting data!");
@@ -62,7 +62,7 @@ function requestInfo() {
 }
 
 //We took this part and put it into it's own function so we don't get a massive blok of code but instead small parts.
-function showRepos() {
+function showRepos(responseObject) {
 	//Since we have an article in our index.html page with the id resultRepos, we can get it and save it into a variable for further working.
 	const resultRepositories = document.querySelector("#resultRepos");
 	//We need to set the innerHTML for the article null. This way when we press on the button it will be reset
@@ -70,12 +70,12 @@ function showRepos() {
 	resultRepositories.innerHTML = null;
 
 	//Since we know we have JSON meaning an array of objects we can run a for loop with the arrays lenght and put it on the html page
-	for (var i = 0; i < parsedResponse.length; i++) {
+	for (var i = 0; i < responseObject.length; i++) {
 		//Here we creates li elements
 		const repoLiElement = document.createElement('li');
 
 		//Here we put the inner html of the li element to one of the objects from the JSON
-		repoLiElement.innerHTML = parsedResponse[i].name;
+		repoLiElement.innerHTML = responseObject[i].name;
 		//Here we append the filled li elements to the resultReposities so we can see the result on the html page
 		resultRepositories.appendChild(repoLiElement);  
 	}

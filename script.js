@@ -2,7 +2,8 @@
 const searchForm = document.querySelector('form');
 
 //We are saving the url for what we want to process in the variable url. We add an access token so we don't get a 403 error.
-const url = "https://api.github.com/orgs/HackYourFuture/repos?access_token=8335158c7359e2547b34d7915ad6960ad9f0efaf";
+//const url = "https://api.github.com/orgs/HackYourFuture/repos?access_token=8335158c7359e2547b34d7915ad6960ad9f0efaf";
+
 
 //Here we uses the variable serachForm to listen when something happens. Here it is when the button is clicked.
 //when the button is clickked it is using a submit function so we listen to that and then output the console message "You clicked me!"
@@ -13,14 +14,24 @@ searchForm.addEventListener('submit', function(event){
 	// Using the console to find out that we have out addEventListener function working when you click on the button and this message comes out.
 	console.log("You clicked me!");
 
+	//We take the whole object from the index.html and with the id searchTerm.
+	const searchTerm = document.querySelector("#searchTerm");
+	// Since we only need the value of the field, we use it as an argument in makeUrl function which gives us the whole url we need.
+	const url = makeUrl(searchTerm.value);
+
 	//Here we moved the function out and instead we are doing a call to this function meaning a method call.
-	requestInfo();
+	requestInfo(url);
 	
 });
 
+//A function that takes a searching term and use it to make the url to be used to make the request to.
+function makeUrl(sTerm){
+	return "https://api.github.com/search/repositories?access_token=8335158c7359e2547b34d7915ad6960ad9f0efaf&q=user:HackYourFuture+" + sTerm;
+}
+
 
 //We took this part and put it into it's own function so we don't get a massive blok of code but instead small parts.
-function requestInfo() {
+function requestInfo(url) {
 	//Since we are going to make a XMLHttpRequest let's save it into the request variable so we can work with it's result.
 	const request = new XMLHttpRequest();
 
@@ -29,7 +40,7 @@ function requestInfo() {
 		//Here we check if everything is all fine. It's fine with we get 200 from HTTP.
 		if(this.status === 200){
 			//Always check if you get something by output to console. After that you continue working with the request result.
-			console.log(request);
+			//console.log(request);
 			
 			//Here we take out the response text from the request result we got.
 			const rawResponse = request.responseText;
@@ -38,10 +49,14 @@ function requestInfo() {
 			const parsedResponse = JSON.parse(rawResponse);
 
 			//Here we throw it out to the console to see how it looks.
-			console.log(parsedResponse);
+			//console.log(parsedResponse);
+
+			//Since the result of the parse of rawResponse is different than the usual. We need to go one step in to get the array of objects.
+			//This is done here but by picking the result from "item" which contains the object of arrays, and save it in a new variable.
+			const filteredReponse = parsedResponse.items; 
 
 			//Here we moved the function out and instead we are doing a call to this function meaning a method call.
-			showRepos(parsedResponse);
+			showRepos(parsedResponse.items);
 
 		} else {
 			console.log("Something is wrong cuz I'm not getting data!");
@@ -69,8 +84,10 @@ function showRepos(responseObject) {
 	// and our data will be fresh instead of adding on the old data from the previous button click.
 	resultRepositories.innerHTML = null;
 
+	console.log(responseObject);
+	console.log(responseObject.length);
 	//Since we know we have JSON meaning an array of objects we can run a for loop with the arrays lenght and put it on the html page
-	for (var i = 0; i < responseObject.length; i++) {
+	for (let i = 0; i < responseObject.length; i++) {
 		//Here we creates li elements
 		const repoLiElement = document.createElement('li');
 

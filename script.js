@@ -26,6 +26,9 @@ searchForm.addEventListener('submit', function(event){
 
 //A function that takes a searching term and use it to make the url to be used to make the request to.
 function makeUrl(sTerm){
+	//To look into a users github account
+	//return "https://api.github.com/search/repositories?access_token=8335158c7359e2547b34d7915ad6960ad9f0efaf&q=user:+" + sTerm;
+	//To look into HackYourFuture's github account by choosing a repository from the whole collection done by HackYourFuture
 	return "https://api.github.com/search/repositories?access_token=8335158c7359e2547b34d7915ad6960ad9f0efaf&q=user:HackYourFuture+" + sTerm;
 }
 
@@ -92,7 +95,7 @@ function showRepos(responseObject) {
 		const repoLiElement = document.createElement('li');
 
 		//Here we put the inner html of the li element to one of the objects from the JSON
-		repoLiElement.innerHTML = responseObject[i].name;
+		repoLiElement.innerHTML = `<a href="https://api.github.com/repos/HackYourFuture/`+ responseObject[i].name + `" target="_blank">` + responseObject[i].name +`</a>`;
 		//Here we append the filled li elements to the resultReposities so we can see the result on the html page
 		resultRepositories.appendChild(repoLiElement);  
 	}

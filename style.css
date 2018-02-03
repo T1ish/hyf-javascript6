@@ -1,0 +1,21 @@
+#resultRepos {
+	list-style-type: none;
+}
+
+article{
+	display: flow-root;
+	margin-bottom: 3%;
+	/*border: 2px dashed purple;*/
+
+}
+
+ol {
+	float: right;
+	width: 49%;
+}
+
+li {
+	border-color: purple;
+	border-width: 0px 0px 2px 0px;
+	border-bottom-style: dashed;
+}
